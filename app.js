@@ -42,4 +42,25 @@ function addPhraseToDisplay(arr) {
 const phraseArray = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(phraseArray);
 
-function checkLetter(btn) {}
+// Check players buttons against correct letters
+const checkLetter = btnGuess => {
+  const letter = document.querySelectorAll(".letter");
+  let match = null;
+  for (let i = 0; i < letter.length; i++) {
+    if (letter[i].textContent === btnGuess.textContent) {
+      letter[i].classList.add("show");
+      match = btnGuess.textContent;
+    }
+  }
+  return match;
+};
+
+qwerty.addEventListener("click", btn => {
+  const button = btn.target;
+  if (button.tagName === "BUTTON" && button.className !== "chosen") {
+    button.className = "chosen";
+    const letterFound = checkLetter(button);
+  } else if (button.tagName === "BUTTON" || button.className === "chosen") {
+    button.setAttribute("disabled", "");
+  }
+});
