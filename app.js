@@ -2,7 +2,8 @@ const qwerty = document.getElementById("qwerty");
 const phrase = document.getElementById("phrase");
 const startButton = document.querySelector(".btn__reset");
 const scoreboard = document.querySelector("#scoreboard");
-var missed = 0;
+const overlay = document.querySelector("#overlay");
+let missed = 0;
 
 const phrases = [
   "javascript is fun",
@@ -14,7 +15,9 @@ const phrases = [
 
 // Start the game
 startButton.addEventListener("click", () => {
-  document.querySelector("#overlay").style.display = "none";
+  overlay.style.display = "none";
+  clearDisplay();
+  newGame();
 });
 
 // Get a random phrase and split it into an array
@@ -77,14 +80,33 @@ qwerty.addEventListener("click", btn => {
 function checkWin() {
   const letter = document.querySelectorAll(".letter");
   const show = document.querySelectorAll(".show");
-  const overlay = document.querySelector("#overlay");
   if (letter.length === show.length) {
     overlay.className = "win";
     overlay.firstElementChild.textContent = "You Won!";
     overlay.style.display = "flex";
+    startButton.textContent = "Play Again";
   } else if (missed > 4) {
     overlay.className = "lose";
     overlay.firstElementChild.textContent = "Try Again!";
     overlay.style.display = "flex";
+    startButton.textContent = "Play Again";
   }
+}
+
+// Reset Game
+function newGame() {
+  const buttons = qwerty.querySelectorAll("button");
+  for (let i = 0; i < buttons.length; i++) {
+    if (buttons[i].className === "chosen") {
+      buttons[i].classList.remove("chosen");
+      buttons[i].removeAttribute("disabled");
+    }
+  }
+}
+
+function clearDisplay() {
+  phrase.innerHTML = "";
+  getRandomPhraseAsArray(phrases);
+  const phraseArray = getRandomPhraseAsArray(phrases);
+  addPhraseToDisplay(phraseArray);
 }
