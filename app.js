@@ -73,7 +73,6 @@ qwerty.addEventListener("click", btn => {
   const button = btn.target;
   if (button.tagName === "BUTTON" && button.className !== "chosen") {
     button.className = "chosen";
-  } else if (button.tagName === "BUTTON" || button.className === "chosen") {
     button.setAttribute("disabled", "");
   }
   const letterFound = checkLetter(button);
@@ -128,13 +127,5 @@ function resetHearts() {
     if (lostHeart[i].src !== "images/liveHeart.png") {
       lostHeart[i].src = "images/liveHeart.png";
     }
-  }
-}
-
-function disableBubbling(event) {
-  if (event.stopPropagation) {
-    event.stopPropagation();
-  } else if (window.event) {
-    window.event.cancelBubble = true;
   }
 }
