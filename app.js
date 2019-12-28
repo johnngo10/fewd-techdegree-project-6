@@ -77,7 +77,7 @@ qwerty.addEventListener("click", btn => {
     button.setAttribute("disabled", "");
   }
   const letterFound = checkLetter(button);
-  if (letterFound === null) {
+  if (letterFound === null && button.tagName === "BUTTON") {
     replaceImg();
     missed += 1;
   }
@@ -128,5 +128,13 @@ function resetHearts() {
     if (lostHeart[i].src !== "images/liveHeart.png") {
       lostHeart[i].src = "images/liveHeart.png";
     }
+  }
+}
+
+function disableBubbling(event) {
+  if (event.stopPropagation) {
+    event.stopPropagation();
+  } else if (window.event) {
+    window.event.cancelBubble = true;
   }
 }
