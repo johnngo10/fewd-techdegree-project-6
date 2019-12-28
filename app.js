@@ -18,6 +18,7 @@ startButton.addEventListener("click", () => {
   overlay.style.display = "none";
   clearDisplay();
   newGame();
+  resetHearts();
 });
 
 // Get a random phrase and split it into an array
@@ -59,7 +60,15 @@ function checkLetter(btnGuess) {
   return match;
 }
 
-// Listen for players button press and score
+// Replace live hearts with lost hearts
+function replaceImg() {
+  const img = document.querySelector("img[src='images/liveHeart.png']");
+  if (img.src !== "images/lostHeart.png") {
+    img.src = "images/lostHeart.png";
+  }
+}
+
+// Listen for players button press and
 qwerty.addEventListener("click", btn => {
   const button = btn.target;
   if (button.tagName === "BUTTON" && button.className !== "chosen") {
@@ -69,8 +78,7 @@ qwerty.addEventListener("click", btn => {
   }
   const letterFound = checkLetter(button);
   if (letterFound === null) {
-    const tries = scoreboard.firstElementChild;
-    tries.removeChild(tries.firstElementChild);
+    replaceImg();
     missed += 1;
   }
   checkWin(button);
@@ -93,7 +101,7 @@ function checkWin() {
   }
 }
 
-// Reset Game
+//  Reset Game
 function newGame() {
   const buttons = qwerty.querySelectorAll("button");
   for (let i = 0; i < buttons.length; i++) {
@@ -102,6 +110,7 @@ function newGame() {
       buttons[i].removeAttribute("disabled");
     }
   }
+  missed = 0;
 }
 
 function clearDisplay() {
@@ -109,4 +118,15 @@ function clearDisplay() {
   getRandomPhraseAsArray(phrases);
   const phraseArray = getRandomPhraseAsArray(phrases);
   addPhraseToDisplay(phraseArray);
+}
+
+function resetHearts() {
+  const lostHeart = document.querySelectorAll(
+    "img[src='images/lostHeart.png']"
+  );
+  for (let i = 0; i < lostHeart.length; i++) {
+    if (lostHeart[i].src !== "images/liveHeart.png") {
+      lostHeart[i].src = "images/liveHeart.png";
+    }
+  }
 }
